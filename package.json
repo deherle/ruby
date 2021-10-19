@@ -1,0 +1,22 @@
+{
+  "name": "iMemorized",
+  "version": "1.0.0",
+  "description": "A native application for capturing, storing and codifying your personal information.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Darin Herle",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^8.3.0",
+    "electron-rebuild": "^3.2.3"
+  },
+  "dependencies": {
+    "electron-store": "^8.0.0",
+    "node-disk-info": "^1.3.0",
+    "semantic-ui-css": "^2.4.1",
+    "usb-detection": "^4.10.0",
+    "vue": "^2.6.11"
+  }
+}

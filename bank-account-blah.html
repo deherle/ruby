@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src *; font-src * data: blob: 'unsafe-inline'; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'; img-src * data: 'unsafe-inline'; connect-src * 'unsafe-inline'; frame-src *;">
+    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'"> 
+    <link rel="stylesheet" type="text/css" href="css/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    
+    <!-- Workaround to allow JQuery to load with Electron  -->
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+    
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/semantic.min.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/vue-router.js"></script>
+    <script src="js/renderer.js"></script>
+    <script src="js/components.js"></script>
+    <!-- <script src="js/vault-seed.js"></script> -->
+    <script src="js/bank-account-blah.js"></script>
+
+    <script>if (window.module) module = window.module;</script>
+
+    <title>SmartVault</title>
+  </head>
+  <body>
+    <div class="ui grid" id="vue-wrapper">
+
+        <div class="three wide column" style="width: 24em !important;">
+            <menu-picker></menu-picker>
+        </div>
+
+        <div class="center aligned thirteen wide column">
+            
+            <div class="ui container">
+        
+                <div class="ui right aligned grid">
+                    <header-bar></header-bar>
+                </div>
+                
+                <div class="row centered" style="margin: 1em 0;">
+                  <div class="ten wide column">
+                      <div class="ui divider"></div>
+                  </div>
+                </div>
+
+                <router-view></router-view>
+            
+              </div>
+
+        </div>
+
+    </div>
+
+      <div class="ui basic modal" id="missing-modal">
+        <div class="ui icon header">
+          <!-- <i class="archive icon"></i> -->
+          Missing Information
+        </div>
+        <div class="content" style="text-align: center;">
+          <p>It looks like you're missing the Account Name, please enter that to save this account.</p>
+        </div>
+        <div class="actions" style="text-align: center;">
+          <div class="ui green ok inverted button">
+            <i class="checkmark icon"></i>
+            OK
+          </div>
+        </div>
+      </div>
+
+      <div class="ui basic modal" id="save-modal">
+        <div class="ui icon header">
+          <!-- <i class="archive icon"></i> -->
+          Go Back
+        </div>
+        <div class="content" style="text-align: center;">
+          <p>It looks like you've made some changes, are you sure you want to go back?</p>
+        </div>
+        <div class="actions" style="text-align: center;">
+          <div class="ui red basic cancel inverted button" onclick="Discard();">
+            <i class="remove icon"></i>
+              Discard
+          </div>
+          <div class="ui green ok inverted button" onclick="Save();">
+            <i class="checkmark icon"></i>
+              Save changes
+          </div>
+        </div>
+      </div>
+
+  </body>
+  
+</html>

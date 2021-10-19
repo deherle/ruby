@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src *; font-src * data: blob: 'unsafe-inline'; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'; img-src * data: 'unsafe-inline'; connect-src * 'unsafe-inline'; frame-src *;">
+    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <link rel="stylesheet" type="text/css" href="semantic.min.css">
+    <script src="react.production.min.js"></script>
+    <script src="react-dom.production.min.js"></script>
+    <script src="jquery-3.1.1.min.js"></script>
+    <script src="semantic.min.js"></script>
+    <script src="renderer.js"></script>
+    <title>iMemorized</title>
+  </head>
+  <body>
+    <div class="ui visible sidebar inverted vertical menu" style="background: none; width: 24em;">
+        <div class="ui vertical steps inverted" style="margin: 0.5em;">
+            <a class="step">
+              <i class="child icon"></i>
+              <div class="content">
+                <div class="title">Getting Started</div>
+                <div class="description">Learn how iMemorized works</div>
+              </div>
+            </a>
+            <a class="step">
+              <i class="archive icon"></i>
+              <div class="content">
+                <div class="title">Sources of Information</div>
+                <div class="description">Entering data</div>
+              </div>
+            </a>
+            <a class="active step">
+              <i class="users icon"></i>
+              <div class="content">
+                <div class="title">Family Information</div>
+                <div class="description">Family contacts</div>
+              </div>
+            </a>
+            <a class="step">
+                <i class="address book icon"></i>
+                <div class="content">
+                  <div class="title">Important Contacts</div>
+                  <div class="description">Other key people</div>
+                </div>
+            </a>
+            <a class="step">
+                <i class="file alternate icon"></i>
+                <div class="content">
+                    <div class="title">Important Documents</div>
+                    <div class="description">Power of attorney, etc.</div>
+                </div>
+            </a>
+            <a class="step">
+                <i class="plug icon"></i>
+                <div class="content">
+                    <div class="title">Service Providers</div>
+                    <div class="description">Ongoing contracts</div>
+                </div>
+            </a>
+            <a class="step">
+                <i class="university icon"></i>
+                <div class="content">
+                    <div class="title">Insurance</div>
+                    <div class="description">Sources and dates</div>
+                </div>
+            </a>
+          </div>
+    </div>
+      <div class="pusher">
+        <div class="ui right aligned grid">
+            <div class="row centered" style="margin: 2em 0;">
+                <div class="right floated left aligned four wide column">
+                    <button href="index.html" class="ui labeled icon button">
+                        Search
+                        <i class="search icon"></i>
+                    </button>
+                    <button href="index.html" class="ui labeled icon button">
+                        Help
+                        <i class="help icon"></i>
+                    </button>
+                    <button href="index.html" class="ui labeled icon button">
+                        Bookmark
+                        <i class="bookmark icon"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="row centered" style="margin: 1em 0;">
+                <div class="ten wide column">
+                    <div class="ui divider"></div>
+                </div>
+            </div>
+            <div class="row centered" style="margin: 1em 0;">
+                <div class="ten wide column" style="text-align: center;">
+                    <h1>Sue, let's enter your first family member</h1>>
+                </div>
+            </div>
+            <div class="row centered" style="margin: 1em 0;">
+                <div class="three wide column">
+                    <div class="ui left labeled input">
+                        <input type="text" placeholder="Enter relationship...">
+                        <div class="ui label">
+                          Relationship
+                        </div>
+                      </div>
+                </div>
+                <div class="three wide column">
+                    <div class="ui left labeled input">
+                        <input type="text" placeholder="Enter first name...">
+                        <div class="ui label">
+                          First name
+                        </div>
+                      </div>
+                </div>
+                <div class="three wide column">
+                    <div class="ui left labeled input">
+                        <input type="text" placeholder="Enter last name..">
+                        <div class="ui label">
+                          Last name
+                        </div>
+                      </div>    
+                </div>
+            </div>
+            <div class="row centered" style="margin: 1em 0;">
+                <div class="three wide column">
+                    <div class="ui left labeled input">
+                        <input type="text" placeholder="Enter dob...">
+                        <div class="ui label">
+                          Date of birth
+                        </div>
+                      </div>
+                </div>
+                <div class="three wide column">
+                    <div class="ui left labeled input">
+                        <input type="text" placeholder="Enter place of birth">
+                        <div class="ui label">
+                          Birthplace
+                        </div>
+                      </div>
+                </div>
+                <div class="three wide column">
+                    <div class="ui labeled input">
+                        <input type="text" placeholder="Enter DL number..">
+                        <div class="ui label">
+                            Drivers License
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row centered" style="margin: 1em 0;">
+                <div class="nine wide column">
+                    <div class="ui warning message">
+                        <div class="header">
+                          Should we notify this person in the event of significant life event?
+                        </div>
+                        <div class="ui checkbox" style="margin: 0.5 0;">
+                            <input type="checkbox" name="example">
+                            <label>Notify when event occurs</label>
+                          </div>
+                      </div>
+                </div>
+            </div>
+            <div class="row centered" style="margin: 2em 0;">
+                <div class="column four wide"></div>
+                <div class="right aligned column four wide">
+                    <a href="index.html" class="ui huge labeled icon button">
+                        Previous
+                        <i class="left arrow icon"></i>
+                    </a>
+                </div>
+                <div class="column four wide">
+                  <a href="wizard2.html" class="ui huge blue right labeled icon button">
+                    <i class="right arrow icon"></i>
+                    Next
+                  </a>
+                </div>
+                <div class="column four wide"></div>
+            </div>
+            <div class="row centered" style="margin: 2em 0;">
+                <div class="column four wide">
+                    <h5>&copy;2020 iMemorized or one of its affiliates. All rights reserved.</h5>
+                </div>
+            </div>
+        </div>
+  </body>
+</html>

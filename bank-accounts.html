@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src *; font-src * data: blob: 'unsafe-inline'; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'; img-src * data: 'unsafe-inline'; connect-src * 'unsafe-inline'; frame-src *;">
+    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'"> 
+    <link rel="stylesheet" type="text/css" href="css/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    
+    <!-- Workaround to allow JQuery to load with Electron  -->
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+    
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/semantic.min.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script src="js/renderer.js"></script>
+    <script src="js/components.js"></script>
+    <!-- <script src="js/vault-seed.js"></script> -->
+    <script src="js/bank-accounts.js"></script>
+
+    <script>if (window.module) module = window.module;</script>
+
+    <title>SmartVault</title>
+  </head>
+  <body>
+    <div class="ui grid" id="vue-wrapper">
+
+      <div class="three wide column" style="width: 24em !important;">
+        <menu-picker></menu-picker>
+      </div>
+
+        <div class="center aligned thirteen wide column">
+            
+            <div class="ui container">
+        
+              <div class="ui right aligned grid">
+                <header-bar></header-bar>
+              </div>
+                
+        
+                <div class="row centered" style="margin: 1em 0;">
+                  <div class="ten wide column">
+                      <div class="ui divider"></div>
+                  </div>
+                </div>
+
+                <div class="row centered" style="margin: 4em 0;" >
+                   
+                    <div class="column ten wide">
+
+                        <h2>Bank Accounts Summary</h2>
+
+                        <h4>This list summarizes all of your bank accounts. If you wish to review or edit an item on this list, click on the applicable item.</h4>
+                        
+                        <table class="ui single line padded large table" style="margin-top: 4em;">
+                            <thead>
+                              <tr>
+                                <th>Bank</th>
+                                <th>Account Name</th>
+                                <th>Type</th>
+                                <th>Balance</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr v-for="BankAccount in bankAccounts" @click="onRowClick(BankAccount.id);" style="cursor:pointer;">
+                                <td><a href="#">{{BankAccount.bankname}}</a></td>
+                                <td><a href="#">{{BankAccount.name}}</a></td>
+                                <td><a href="#">{{BankAccount.type}}</a></td>
+                                <td><a href="#">${{BankAccount.balance}}</a></td>
+                              </tr>
+                            </tbody>
+                          </table>
+
+                    </div>
+
+                    <div class="ui grid" style="margin-top:4em;">
+                        
+                        <div class="two wide column">
+                            <a href="wizard1.html" class="ui huge blue labeled icon button">
+                                Previous
+                                <i class="left arrow icon"></i>
+                            </a>
+                        </div>
+
+                        <div class="eight wide column"></div>
+                          <div class="two wide column">
+                          <a href="interview.html" class="ui huge blue button">
+                            Add another bank account
+                          </a>
+                        </div>
+                        <div class="two wide column">
+                            <a href="interview.html" class="ui huge blue button">
+                              Done with bank accounts
+                            </a>
+                          </div>
+
+                    
+
+                    <div class="row centered" style="margin: 2em 0;">
+                        <p>&nbsp;</p>
+                        <h5>&copy;2020 iMemorized or one of its affiliates. All rights reserved.</h5>
+                    </div>
+                    
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+table tr {
+    background-color: #fffaf3;
+}
+
+table tr:hover {
+    background-color: #fff4e4;
+}
