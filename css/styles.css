@@ -5,3 +5,7 @@ table tr {
 table tr:hover {
     background-color: #fff4e4;
 }
+
+.hidden {
+    display: none !important;
+}

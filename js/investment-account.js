@@ -1,74 +1,74 @@
 
-var bankAccountComponent = Vue.component( 'bank-account-template', {
+var investmentAccountComponent = Vue.component( 'investment-account-template', {
     computed : {
       id : {
         cache: false,
-        get() { return gSelectedBankAccount.id; },
+        get() { return gSelectedInvestmentAccount.id; },
         set(value) { 
-            gSelectedBankAccount.id = value;
+            gSelectedInvestmentAccount.id = value;
           }
       },
       name : {
         cache: false,
-        get() { return gSelectedBankAccount.name; },
+        get() { return gSelectedInvestmentAccount.name; },
         set(value) { 
-            gSelectedBankAccount.name = value;
+            gSelectedInvestmentAccount.name = value;
             inputHasChanged = true; 
           }
       },
       number : {
         cache: false,
-        get() { return gSelectedBankAccount.number },
+        get() { return gSelectedInvestmentAccount.number },
         set(value) { 
-          gSelectedBankAccount.number = value; 
+            gSelectedInvestmentAccount.number = value; 
           inputHasChanged = true; 
         }
       },
       balance : {
         cache: false,
-        get() { return gSelectedBankAccount.balance },
+        get() { return gSelectedInvestmentAccount.balance },
         set(value) { 
-          gSelectedBankAccount.balance = value;
+            gSelectedInvestmentAccount.balance = value;
           inputHasChanged = true;  
         }
       },
       type : {
         cache: false,
-        get() { return gSelectedBankAccount.type },
+        get() { return gSelectedInvestmentAccount.type },
         set(value) { 
-          gSelectedBankAccount.type = value;
+            gSelectedInvestmentAccount.type = value;
           inputHasChanged = true;
         }
       },
       ownership : {
         cache: false,
-        get() { return gSelectedBankAccount.ownership },
+        get() { return gSelectedInvestmentAccount.ownership },
         set(value) { 
-          gSelectedBankAccount.ownership = value;
+            gSelectedInvestmentAccount.ownership = value;
           inputHasChanged = true; 
         }
       },
-      bankname : {
+      brokername : {
         cache: false,
-        get() { return gSelectedBankAccount.bankname },
+        get() { return gSelectedInvestmentAccount.brokername },
         set(value) { 
-          gSelectedBankAccount.bankname = value;
+            gSelectedInvestmentAccount.brokername = value;
           inputHasChanged = true;  
         }
       },
       address : {
         cache: false,
-        get() { return gSelectedBankAccount.address },
+        get() { return gSelectedInvestmentAccount.address },
         set(value) { 
-          gSelectedBankAccount.address = value;
+            gSelectedInvestmentAccount.address = value;
           inputHasChanged = true;  
         }
       },
       notes : {
         cache: false,
-        get() { return gSelectedBankAccount.notes },
+        get() { return gSelectedInvestmentAccount.notes },
         set(value) { 
-          gSelectedBankAccount.notes = value; 
+            gSelectedInvestmentAccount.notes = value; 
           inputHasChanged = true; 
         }
       }
@@ -82,28 +82,28 @@ var bankAccountComponent = Vue.component( 'bank-account-template', {
     },
     mounted : function() {
       this.localAccountIndex = this.accountIndex;
-      EventBus.$on('save-bankaccount', this.saveBankAccount);
-      EventBus.$on('discard-bankaccount-changes', this.discardBankAccountChanges);
-      EventBus.$on('delete-bankaccount', this.hardDelete);
+      EventBus.$on('save-investmentaccount', this.saveInvestmentAccount);
+      EventBus.$on('discard-investmentaccount-changes', this.discardInvestmentAccountChanges);
+      EventBus.$on('delete-investmentaccount', this.hardDelete);
     },
     methods : {
-      saveBankAccount : function() {
-        if( gSelectedBankAccount.name.length == 0 ) {
+      saveInvestmentAccount : function() {
+        if( gSelectedInvestmentAccount.name.length == 0 ) {
           $('#missing-modal').modal('show');
         } else {
           if(this.localAccountIndex != -1) {
-            gVaultBlob.BankAccounts[this.localAccountIndex] = gSelectedBankAccount;
+            gVaultBlob.InvestmentAccounts[this.localAccountIndex] = gSelectedInvestmentAccount;
           } else {
-            gSelectedBankAccount.id = this.localAccountIndex = gVaultBlob.BankAccounts.length;
-            gVaultBlob.BankAccounts[gVaultBlob.BankAccounts.length] = gSelectedBankAccount;
+            gSelectedInvestmentAccount.id = this.localAccountIndex = gVaultBlob.InvestmentAccounts.length;
+            gVaultBlob.InvestmentAccounts[gVaultBlob.InvestmentAccounts.length] = gSelectedInvestmentAccount;
           }
           EventBus.$emit('save-to-device');
-          gRouter.push('bank-accounts');
+          gRouter.push('investments');
           
         }
       },
-      discardBankAccountChanges : function() {
-        gRouter.push('bank-accounts');
+      discardInvestmentAccountChanges : function() {
+        gRouter.push('investments');
       },
       inputChanged : function() {
         this.inputHasChanged = true;
@@ -112,7 +112,7 @@ var bankAccountComponent = Vue.component( 'bank-account-template', {
         if( this.inputHasChanged ) {
           $('#save-modal').modal('show');
         } else {
-          gRouter.push('bank-accounts');
+          gRouter.push('investments');
         }
       },
       Delete : function() {
@@ -120,10 +120,10 @@ var bankAccountComponent = Vue.component( 'bank-account-template', {
       },
       hardDelete : function() {
         if(this.accountIndex == -1) {
-          gRouter.push('bank-accounts');
+          gRouter.push('investments');
         } else {
-          gVaultBlob.BankAccounts.splice(this.localAccountIndex,1);
-          gRouter.push('bank-accounts');
+          gVaultBlob.InvestmentAccounts.splice(this.localAccountIndex,1);
+          gRouter.push('investments');
         }
       }
     },
@@ -132,15 +132,15 @@ var bankAccountComponent = Vue.component( 'bank-account-template', {
 
           <div class="column ten wide">
                 
-            <h2>Bank Account Information</h2>
+            <h2>Investment Account Information</h2>
             
-            <h4>Enter as much information as you can about this bank account.</h4>
+            <h4>Enter as much information as you can about this investment account.</h4>
 
             <div class="ui big form" style="margin-top: 2em;">
 
             <div class="eight wide field required">
               <label>Account Name</label>
-              <input v-model="name" type="text" placeholder="Primary Checkings, Rent, Education Savings, etc." autocomplete="off" id="accountname" @input="inputChanged();">
+              <input v-model="name" type="text" placeholder="Primary retirement account, education account, etc." autocomplete="off" id="accountname" @input="inputChanged();">
             </div>
 
             <div class="field">
@@ -163,14 +163,38 @@ var bankAccountComponent = Vue.component( 'bank-account-template', {
               <label>Account Type:</label>
               <div class="field">
                 <div class="ui radio checkbox">
-                  <input type="radio" name="accounttype" value="Checkings" v-model="type" @input="inputChanged();">
-                  <label>Checkings</label>
+                  <input type="radio" name="accounttype" value="401k" v-model="type" @input="inputChanged();">
+                  <label>401k</label>
                 </div>
               </div>
               <div class="field">
                 <div class="ui radio checkbox">
-                  <input type="radio" name="accounttype" value="Savings" v-model="type" @input="inputChanged();">
-                  <label>Savings</label>
+                  <input type="radio" name="accounttype" value="IRA" v-model="type" @input="inputChanged();">
+                  <label>IRA</label>
+                </div>
+              </div>
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input type="radio" name="accounttype" value="Brokerage" v-model="type" @input="inputChanged();">
+                  <label>Brokerage</label>
+                </div>
+              </div>
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input type="radio" name="accounttype" value="Mutual Fund" v-model="type" @input="inputChanged();">
+                  <label>Mutual Fund</label>
+                </div>
+              </div>
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input type="radio" name="accounttype" value="Pension" v-model="type" @input="inputChanged();">
+                  <label>Pension</label>
+                </div>
+              </div>
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input type="radio" name="accounttype" value="RRSP" v-model="type" @input="inputChanged();">
+                  <label>RRSP</label>
                 </div>
               </div>
             </div>
@@ -194,19 +218,19 @@ var bankAccountComponent = Vue.component( 'bank-account-template', {
             <div class="field">
               <div class="two fields">
                 <div class="field">
-                  <label>Bank Name</label>
-                  <input v-model="bankname" type="text" name="bank-name" placeholder="Bank Name" @input="inputChanged();">
+                  <label>Broker/Custodian Name</label>
+                  <input v-model="brokername" type="text" name="broker-name" placeholder="Broker Name" @input="inputChanged();">
                 </div>
                 <div class="field">
-                  <label>Bank Address</label>
-                  <input v-model="address" type="text" name="address" placeholder="Bank Address" @input="inputChanged();">
+                  <label>Broker/Custodian Address</label>
+                  <input v-model="address" type="text" name="address" placeholder="Broker Address" @input="inputChanged();">
                 </div>
               </div>
             </div>
                               
             <div class="field">
               <label>Notes</label>
-              <textarea rows="2" placeholder="Bank contact person, date opened, etc." v-model="notes" @input="inputChanged();"></textarea>
+              <textarea rows="2" placeholder="Account contact person, date opened, etc." v-model="notes" @input="inputChanged();"></textarea>
             </div>
 
           </div>
@@ -224,13 +248,13 @@ var bankAccountComponent = Vue.component( 'bank-account-template', {
 
           <div class="eight wide column"></div>
             <div class="two wide column">
-                <button class="ui huge blue button" @click="saveBankAccount();">
-                Save this bank account
+                <button class="ui huge blue button" @click="saveInvestmentAccount();">
+                Save this account
                 </button>
             </div>
             <div class="two wide column">
                 <button class="ui huge blue button" @click="Delete();">
-                Delete this bank account
+                Delete this account
                 </button>
             </div>
 

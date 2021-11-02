@@ -26,8 +26,26 @@ var vaultSeed = {
             "address" : "311 Douglas Ave, Victoria",
             "notes" : "Used primarily for paying bills"
         }
-    ]
-    
+    ],
+    "Documents" : [],
+    "Contacts" : [],
+    "FamilyContacts" : [],
+    "Investments" : [],
+    "Insurance" : [],
+    "ServiceProviders" : []
+};
+
+var emptyBlob = {
+    "name" : "",
+    "address" : "",
+    "dateofbirth" : "",
+    "BankAccounts" : [],
+    "Documents" : [],
+    "Contacts" : [],
+    "FamilyContacts" : [],
+    "InvestmentAccounts" : [],
+    "Insurance" : [],
+    "ServiceProviders" : []
 };
 
 localStorage.setItem("object-index", "0");

@@ -9,19 +9,19 @@ var connectComponent = Vue.component('connect-device', {
             connectStepIsActive: true,
             connectStepSpinnerIsActive: true,
             connectStepIsCompleted: false,
-            connectStepIconIsVisible: false,
+            connectStepIconIsHidden: true,
             connectText: 'Searching for your SmartVault',
-            pinStepIsActive: false,
+            /*pinStepIsActive: false,
             pinStepIsDisabled: true,
             pinStepSpinnerIsActive: false,
             pinStepIsCompleted: false,
-            pinStepIconIsVisible: false,
-            pinText: 'Enter your PIN',
+            pinStepIconIsHidden: false,
+            pinText: 'Enter your PIN',*/
             authenticatedStepIsActive: false,
             authenticatedStepIsDisabled: true,
             authenticatedStepSpinnerIsActive: false,
             authenticatedStepIsCompleted: false,
-            authenticatedStepIconIsVisible: false,
+            authenticatedStepIconIsHidden: false,
             readyText: 'Reading secure data'
             }
     },
@@ -47,20 +47,20 @@ var connectComponent = Vue.component('connect-device', {
             this.connectStepIsActive = true;
             this.connectStepSpinnerIsActive = true;
             this.connectStepIsCompleted = false;
-            this.onnectStepIconIsVisible = false;
+            this.connectStepIconIsHidden = true;
             this.connectText = 'Searching for your SmartVault';
         },
         connectedEvent : function() {
             this.connectStepIsActive = false;
             this.connectStepIsCompleted = true;
             this.connectStepSpinnerIsActive = false;
-            this.connectStepIconIsVisible = true;
+            this.connectStepIconIsHidden = false;
             this.connectText = 'Found your SmartVault!';
-            this.pinStepIsActive = true;
+            /*this.pinStepIsActive = true;
             this.pinStepIsDisabled = false;
             this.pinStepSpinnerIsActive = true;
             this.pinStepIsCompleted = false;
-            this.pinStepIconIsVisible = true;
+            this.pinStepIconIsHidden = true; */
 
             this.lookForUnlockedDevice();
         },
@@ -68,53 +68,62 @@ var connectComponent = Vue.component('connect-device', {
             this.connectStepIsActive = false;
             this.connectStepIsCompleted = true;
             this.connectStepSpinnerIsActive = false;
-            this.connectStepIconIsVisible = true;
-            this.pinStepIsActive = false;
+            this.connectStepIconIsHidden = false;
+            /*this.pinStepIsActive = false;
             this.pinStepIsDisabled = false;
             this.pinStepSpinnerIsActive = false;
             this.pinStepIsCompleted = true;
-            this.pinText = 'Unlocked your SmartVault';
+            this.pinStepIconIsHidden = false;
+            this.pinText = 'Unlocked your SmartVault';*/
             this.authenticatedStepIsActive = true;
             this.authenticatedStepIsDisabled = false;
             this.authenticatedStepSpinnerIsActive = true;
             this.authenticatedStepIsCompleted = false;
+            this.authenticatedStepIconIsHidden = true;
             this.readyText = 'Reading your SmartVault';
 
             setTimeout( function() {
                 EventBus.$emit('device-ready');
-            }, 3000);
+            }, 1000);
 
         },
         deviceReadyEvent : function() {
-            this.authenticatedStepIsActive = true;
+            this.authenticatedStepIsActive = false;
             this.authenticatedStepIsDisabled = false;
             this.authenticatedStepSpinnerIsActive = false;
             this.authenticatedStepIsCompleted = true;
+            this.authenticatedStepIconIsHidden = false;
             this.readyText = 'Device is ready';
+            gDeviceConectionStatus = 'Connected';
         },
         deviceDisconnectedEvent : function() {
             
         },
         lookForUnlockedDevice : function() {
-            deviceCheckIntervalHandler = window.setInterval( function() {
 
-                nodeDiskInfo.getDiskInfo()
+            nodeDiskInfo.getDiskInfo()
                 .then(disks => {
                     
-                    for(const disk of disks) {
+                    disks.forEach(function(disk) {
                         if(disk.filesystem === 'Removable Disk') {
                             var path = disk.mounted;
-                            path = path + '\\' + 'source-enc.b64.bin';
-                            fs.readFile(path, (err,data) => {
+                            path = path + '\\' + gDeviceBlobFileName;
+                            fs.readFile(path, 'utf8', (err,data) => {
                             if(err) {
                                 console.log("Could not read file:" + err);
                             } else {
-                                window.clearInterval(deviceCheckIntervalHandler);
+                                console.log(data);
+                                if(data === '') {
+                                    gVaultBlob = emptyBlob;
+                                } else {
+                                    gVaultBlob = JSON.parse(data);
+                                }
+                                gMountedDrive = disk.mounted;
                                 EventBus.$emit('device-authenticated');
                             }
                         });
                     }
-                }
+                });
                 
                 
             })
@@ -123,57 +132,71 @@ var connectComponent = Vue.component('connect-device', {
             
         });
 
-            }, 3000);
+        },
+        deviceSave : function() {
+            var path = gMountedDrive;
+            path = path + '\\' + gDeviceBlobFileName;
+            fs.writeFile(path, JSON.stringify(gVaultBlob), 'utf8', (err) => {
+                if(err) {
+                    console.log(err);
+                }
+            });
         }
     },
     mounted : function() {
 
-        EventBus.$on('device-connecting', this.connectingEvent);
-        EventBus.$on('device-authenticated', this.authenticatedEvent);
-        EventBus.$on('device-connected', this.connectedEvent);
-        EventBus.$on('device-ready', this.deviceReadyEvent);
-        EventBus.$on('device-disconnected', this.deviceDisconnectedEvent);
+        if(gDeviceConectionStatus != 'Connected') {
 
-        usbDetect.startMonitoring();
+            EventBus.$on('device-connecting', this.connectingEvent);
+            EventBus.$on('device-authenticated', this.authenticatedEvent);
+            EventBus.$on('device-connected', this.connectedEvent);
+            EventBus.$on('device-ready', this.deviceReadyEvent);
+            EventBus.$on('device-disconnected', this.deviceDisconnectedEvent);
+            EventBus.$on('save-to-device', this.deviceSave);
 
-        //
-        // Detect when device is plugged in after starting the app
-        //
-        usbDetect.on('add:261:4660', function(device) {
-            console.log(device);
-            EventBus.$emit('device-connected');
-        });
+            usbDetect.startMonitoring();
 
-        //
-        // Detect when device is removed
-        //
-        usbDetect.on('remove:261:4660', function(device) {
-            console.log(device);
-            EventBus.$emit('device-disconnected');
-        });
+            //
+            // Detect when device is plugged in after starting the app
+            //
+            //usbDetect.on('add:261:4660', function(device) {
+            //    console.log(device);
+            //    EventBus.$emit('device-connected');
+            //});
 
-        //
-        // See if we can find the device on app load
-        //
-        usbDetect.find(261, 4660, function(err, devices) { 
-            console.log('find', devices, err);
-            for(const device of devices) {
-                if(device) {
-                    EventBus.$emit('device-connected');
+            //
+            // Detect when device is removed
+            //
+            usbDetect.on('remove:261:4660', function(device) {
+                console.log(device);
+                EventBus.$emit('device-disconnected');
+            });
+
+            //
+            // See if we can find the device on app load
+            //
+            usbDetect.find(261, 4660, function(err, devices) { 
+                console.log('find', devices, err);
+                for(const device of devices) {
+                    if(device) {
+                        EventBus.$emit('device-connected');
+                    }
                 }
-            }
-        });
+            });
 
-
-
-        /*
-        nodeDiskInfo.getDiskInfo()
-            .then(disks => {
-                this.printResults('ASYNC WAY', disks);    
-        })
-            .catch(reason => {
-            console.error(reason);
-        }); */
+        } else {
+            this.connectStepIsActive = false;
+            this.connectStepIsCompleted = true;
+            this.connectStepSpinnerIsActive = false;
+            this.connectStepIconIsHidden = false;
+            this.connectText = 'Found your SmartVault!';
+            this.authenticatedStepIsActive = false;
+            this.authenticatedStepIsDisabled = false;
+            this.authenticatedStepSpinnerIsActive = false;
+            this.authenticatedStepIsCompleted = true;
+            this.authenticatedStepIconIsHidden = false;
+            this.readyText = 'Device is ready';
+        }
 
     },
     template: `
@@ -181,26 +204,26 @@ var connectComponent = Vue.component('connect-device', {
             
             <div class="ui container">
 
-                <div class="ui three top attached steps">
+                <div class="ui two top attached steps">
 
                     <div class="step" v-bind:class="{ active: connectStepIsActive, completed: connectStepIsCompleted }">
-                        <i class="connect icon" v-bind:class="{ hidden: connectStepIconIsVisible }"></i>    
+                        <i class="connect icon" v-bind:class="{ hidden: connectStepIconIsHidden }"></i>    
                         <div class="ui inline loader large" v-bind:class="{ active: connectStepSpinnerIsActive }"style="margin-right: 10px;"></div>
                         <div class="content">
                         <div class="title" style="font-size: 1.5em;">Connect</div>
                         <div class="description" style="font-size: 1.2em; margin-top: 0.5em;">{{connectText}}</div>
                         </div>
                     </div>
-                    <div class="step" v-bind:class="{ active: pinStepIsActive, completed: pinStepIsCompleted, disabled: pinStepIsDisabled }">
-                        <i class="lock icon" v-bind:class="{ hidden: pinStepIconIsVisible }"></i>
+                    <!-- <div class="step" v-bind:class="{ active: pinStepIsActive, completed: pinStepIsCompleted, disabled: pinStepIsDisabled }">
+                        <i class="lock icon" v-bind:class="{ hidden: pinStepIconIsHidden }"></i>
                         <div class="ui inline loader large" v-bind:class="{ active: pinStepSpinnerIsActive }" style="margin-right: 10px;"></div>
                         <div class="content">
                         <div class="title" style="font-size: 1.5em;">Unlock</div>
                         <div class="description" style="font-size: 1.2em; margin-top: 0.5em;">{{pinText}}</div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="step" v-bind:class="{ active: authenticatedStepIsActive, completed: authenticatedStepIsCompleted, disabled: authenticatedStepIsDisabled }">
-                        <i class="bolt icon" v-bind:class="{ hidden: authenticatedStepIconIsVisible }"></i>
+                        <i class="bolt icon" v-bind:class="{ hidden: authenticatedStepIconIsHidden }"></i>
                         <div class="ui inline loader large" v-bind:class="{ active: authenticatedStepSpinnerIsActive }" style="margin-right: 10px;"></div>
                         <div class="content">
                         <div class="title" style="font-size: 1.5em;">Access</div>

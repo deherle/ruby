@@ -16,7 +16,7 @@ Vue.component('menu-picker', {
     },
     watch : {
         $route : function(to,from) {
-            var currentRoute = router.history.current.name;
+            var currentRoute = gRouter.history.current.name;
             if(currentRoute == 'connect') {
                 this.connect = true;
                 this.gettingStarted = false;
@@ -106,7 +106,7 @@ Vue.component('menu-picker', {
                 this.documents = false;
                 this.serviceProviders = true;
                 this.insurance = false;
-            } else if (currentRoute == 'insurance-policy' || currentRoute == 'insurance-policies') {
+            } else if (currentRoute == 'insurancePolicy' || currentRoute == 'insurancePolicies') {
                 this.connect = false;
                 this.gettingStarted = false;
                 this.bankAccounts = false;
@@ -117,39 +117,50 @@ Vue.component('menu-picker', {
                 this.documents = false;
                 this.serviceProviders = false;
                 this.insurance = true;
+            } else if (currentRoute == 'investment' || currentRoute == 'investments') {
+                this.connect = false;
+                this.gettingStarted = false;
+                this.bankAccounts = false;
+                this.information = false;
+                this.investments = true;
+                this.contacts = false;
+                this.familyContacts = false;
+                this.documents = false;
+                this.serviceProviders = false;
+                this.insurance = false;
             }
         }
     },
     methods : {
         Connect : function() {
-            router.push('connect');
+            gRouter.push('connect');
         },
         GettingStarted : function() {
-            router.push('intro1');
+            gRouter.push('intro1');
         },
         InfoSources : function() {
-            router.push('information');
+            gRouter.push('information');
         },
         BankAccounts : function() {
-            router.push('bank-accounts');
+            gRouter.push('bank-accounts');
         },
         Investments : function() {
-            router.push('investments');
+            gRouter.push('investments');
         },
         Contacts : function() {
-            router.push('contacts');
+            gRouter.push('contacts');
         },
         FamilyContacts : function() {
-            router.push('family-contacts');
+            gRouter.push('family-contacts');
         },
         Documents : function() {
-            router.push('documents');
+            gRouter.push('documents');
         },
         ServiceProviders : function() {
-            router.push('service-providers');
+            gRouter.push('service-providers');
         },
         Insurance : function() {
-            router.push('insurance-policies');
+            gRouter.push('insurance-policies');
         }
     },
     template: `

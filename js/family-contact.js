@@ -1,52 +1,52 @@
 
-var contactComponent = Vue.component( 'contact-template', {
+var familyContactComponent = Vue.component( 'family-contact-template', {
     computed : {
       name : {
-        get() { return gSelectedContact.name; },
+        get() { return gSelectedFamilyContact.name; },
         set(value) { 
-          gSelectedContact.name = value;
+            gSelectedFamilyContact.name = value;
             inputHasChanged = true; 
           }
       },
       email : {
-        get() { return gSelectedContact.email },
+        get() { return gSelectedFamilyContact.email },
         set(value) { 
-          gSelectedContact.email = value; 
+            gSelectedFamilyContact.email = value; 
           inputHasChanged = true; 
         }
       },
       phone : {
-        get() { return gSelectedContact.phone },
+        get() { return gSelectedFamilyContact.phone },
         set(value) { 
-          gSelectedContact.phone = value;
+            gSelectedFamilyContact.phone = value;
           inputHasChanged = true;  
         }
       },
       mobile : {
-        get() { return gSelectedContact.mobile },
+        get() { return gSelectedFamilyContact.mobile },
         set(value) { 
-          gSelectedContact.mobile = value;
+            gSelectedFamilyContact.mobile = value;
           inputHasChanged = true;
         }
       },
       organization : {
-        get() { return gSelectedContact.organization },
+        get() { return gSelectedFamilyContact.organization },
         set(value) { 
-          gSelectedContact.organization = value;
+            gSelectedFamilyContact.organization = value;
           inputHasChanged = true; 
         }
       },
       address : {
-        get() { return gSelectedContact.address },
+        get() { return gSelectedFamilyContact.address },
         set(value) { 
-          gSelectedContact.address = value;
+            gSelectedFamilyContact.address = value;
           inputHasChanged = true;  
         }
       },
       notes : {
-        get() { return gSelectedContact.notes },
+        get() { return gSelectedFamilyContact.notes },
         set(value) { 
-          gSelectedContact.notes = value; 
+            gSelectedFamilyContact.notes = value; 
           inputHasChanged = true; 
         }
       }
@@ -66,21 +66,21 @@ var contactComponent = Vue.component( 'contact-template', {
     },
     methods : {
       saveContact : function() {
-        if( gSelectedContact.name.length == 0 ) {
+        if( gSelectedFamilyContact.name.length == 0 ) {
           $('#missing-modal').modal('show');
         } else {
           if(this.localContactIndex != -1) {
-            gVaultBlob.Contacts[this.localContactIndex] = gSelectedContact;
+            gVaultBlob.FamilyContacts[this.localContactIndex] = gSelectedFamilyContact;
           } else {
-            gSelectedContact.id = this.localContactIndex = gVaultBlob.Contacts.length;
-            gVaultBlob.Contacts[gVaultBlob.Contacts.length] = gSelectedContact;
+            gSelectedFamilyContact.id = this.localContactIndex = gVaultBlob.FamilyContacts.length;
+            gVaultBlob.FamilyContacts[gVaultBlob.FamilyContacts.length] = gSelectedFamilyContact;
           }
           EventBus.$emit('save-to-device');
-          gRouter.push('contacts');
+          gRouter.push('family-contacts');
         }
       },
       discardContactChanges : function() {
-        gRouter.push('contacts');
+        gRouter.push('family-contacts');
       },
       inputChanged : function() {
         this.inputHasChanged = true;
@@ -89,7 +89,7 @@ var contactComponent = Vue.component( 'contact-template', {
         if( this.inputHasChanged ) {
           $('#save-modal').modal('show');
         } else {
-          gRouter.push('contacts');
+          gRouter.push('family-contacts');
         }
       },
       Delete : function() {
@@ -97,10 +97,10 @@ var contactComponent = Vue.component( 'contact-template', {
       },
       hardDelete : function() {
         if(this.accountIndex == -1) {
-          gRouter.push('contacts');
+          gRouter.push('family-contacts');
         } else {
-          gVaultBlob.Contacts.splice(this.localAccountIndex,1);
-          gRouter.push('contacts');
+          gVaultBlob.FamilyContacts.splice(this.localAccountIndex,1);
+          gRouter.push('family-contacts');
         }
       }
     },
@@ -109,14 +109,14 @@ var contactComponent = Vue.component( 'contact-template', {
 
           <div class="column ten wide">
                 
-            <h2>Contact Information</h2>
+            <h2>Family Contact Information</h2>
             
-            <h4>Enter as much information as you can about this contact.</h4>
+            <h4>Enter as much information as you can about this family contact.</h4>
 
             <div class="ui big form" style="margin-top: 2em;">
 
             <div class="eight wide field required">
-              <label>Contact Name</label>
+              <label>Family Contact Name</label>
               <input v-model="name" type="text" placeholder="First and last name" autocomplete="off" id="name" @input="inputChanged();">
             </div>
 

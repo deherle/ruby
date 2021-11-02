@@ -11,10 +11,25 @@ var missingModalComponent = Vue.component( 'missing-modal', {
     },
     watch : {
         $route : function(to,from) {
-            var currentRoute = router.history.current.name;
+            var currentRoute = gRouter.history.current.name;
             if(currentRoute == 'bankAccount') {
-                this.missingText = 'the Bank Account name';
+                this.missingText = 'the bank account name';
                 this.missingObject = 'Bank Account' 
+            } else if(currentRoute == 'contact' || currentRoute == 'familyContact') {
+                this.missingText = 'the contact name';
+                this.missingObject = 'Contact' 
+            } else if(currentRoute == 'investment') {
+                this.missingText = 'the investment account name';
+                this.missingObject = 'Investment Account' 
+            } else if(currentRoute == 'insurancePolicy') {
+                this.missingText = 'the insurance policy name';
+                this.missingObject = 'Insurance Policy' 
+            } else if(currentRoute == 'serviceProvider') {
+                this.missingText = 'the service provider name';
+                this.missingObject = 'Service Provider' 
+            } else if(currentRoute == 'documents') {
+                this.missingText = 'the document name';
+                this.missingObject = 'Document' 
             }
         }
     },
@@ -46,23 +61,57 @@ var saveModalComponent = Vue.component( 'save-modal', {
     },
     watch : {
         $route : function(to,from) {
-            var currentRoute = router.history.current.name;
+            var currentRoute = gRouter.history.current.name;
             if(currentRoute == 'bankAccount') {
                 this.changedObject = 'Bank Account';
+            } else if(currentRoute == 'contact' || currentRoute == 'familyContact') {
+                this.changedObject = 'Contact' 
+            } else if(currentRoute == 'investment') {
+                this.changedObject = 'Investment Account' 
+            } else if(currentRoute == 'insurancePolicy') {
+                this.changedObject = 'Insurance Policy' 
+            } else if(currentRoute == 'serviceProvider') {
+                this.changedObject = 'Service Provider' 
+            } else if(currentRoute == 'documents') {
+                this.changedObject = 'Document' 
             }
         }
     },
     methods : {
         Save : function() {
-            var currentRoute = router.history.current.name;
+            var currentRoute = gRouter.history.current.name;
             if(currentRoute == 'bankAccount') {
                 EventBus.$emit('save-bankaccount');
+            } else if(currentRoute == 'contact') {
+                EventBus.$emit('save-contact');
+            } else if(currentRoute == 'familyContact') {
+                EventBus.$emit('save-familycontact');
+            } else if(currentRoute == 'investment') {
+                EventBus.$emit('save-investment');
+            } else if(currentRoute == 'insurancePolicy') {
+                EventBus.$emit('save-insurance');
+            } else if(currentRoute == 'serviceProvider') {
+                EventBus.$emit('save-serviceprovider');
+            } else if(currentRoute == 'documents') {
+                EventBus.$emit('save-document'); 
             }
         },
         Discard : function() {
-            var currentRoute = router.history.current.name;
+            var currentRoute = gRouter.history.current.name;
             if(currentRoute == 'bankAccount') {
                 EventBus.$emit('discard-bankaccount-changes');
+            } else if(currentRoute == 'contact') {
+                EventBus.$emit('discard-contact-changes');
+            } else if(currentRoute == 'familyContact') {
+                EventBus.$emit('discard-familycontact-changes');
+            } else if(currentRoute == 'investment') {
+                EventBus.$emit('discard-investment-changes');
+            } else if(currentRoute == 'insurancePolicy') {
+                EventBus.$emit('discard-insurance-changes');
+            } else if(currentRoute == 'serviceProvider') {
+                EventBus.$emit('discard-serviceprovider-changes');
+            } else if(currentRoute == 'documents') {
+                EventBus.$emit('discard-document-changes'); 
             }
         }
     },
@@ -97,18 +146,40 @@ var deleteModalComponent = Vue.component( 'delete-modal', {
     },
     watch : {
         $route : function(to,from) {
-            var currentRoute = router.history.current.name;
-            if(currentRoute == 'bankAccount') {
-                this.deleteObject = 'Bank Account';
-            }
+            var currentRoute = gRouter.history.current.name;
+            if(currentRoute == 'bankAccount' || currentRoute == 'bankAccounts') {
+                this.deleteObject = 'bank account';
+            } else if(currentRoute == 'contact' || currentRoute == 'familyContact' || currentRoute == 'contacts' || currentRoute == 'familyContacts') {
+                this.deleteObject = 'contact';
+            } else if(currentRoute == 'document' || currentRoute == 'documents') {
+                this.deleteObject = 'document';
+            } else if(currentRoute == 'investment' || currentRoute == 'investments') {
+                this.deleteObject = 'investment account';
+            } else if(currentRoute == 'serviceProvider' || currentRoute == 'serviceproviders') {
+                this.deleteObject = 'service provider';
+            } else if(currentRoute == 'insurancePolicy' || currentRoute == 'insurancePolicies') {
+                this.deleteObject = 'insurance policy';
+            } 
         }
     },
     methods : {
         Delete : function() {
-            var currentRoute = router.history.current.name;
-            if(currentRoute == 'bankAccount') {
+            var currentRoute = gRouter.history.current.name;
+            if(currentRoute == 'bankAccount' || currentRoute == 'bankAccounts') {
                 EventBus.$emit('delete-bankaccount');
-            }
+            } else if(currentRoute == 'contact' || currentRoute == 'contacts') {
+                EventBus.$emit('delete-contact');
+            } else if(currentRoute == 'familyContact' || currentRoute == 'familyContacts') {
+                EventBus.$emit('delete-familycontact');
+            } else if(currentRoute == 'document' || currentRoute == 'documents') {
+                EventBus.$emit('delete-document');
+            } else if(currentRoute == 'investment' || currentRoute == 'investments') {
+                EventBus.$emit('delete-investment');
+            } else if(currentRoute == 'serviceProvider' || currentRoute == 'serviceProviders') {
+                EventBus.$emit('delete-serviceprovider');
+            } else if(currentRoute == 'insurancePolicy' || currentRoute == 'insurancePolicies') {
+                EventBus.$emit('delete-insurance');
+            } 
         }
     },
     template: `        

@@ -1,8 +1,8 @@
 
-var contactsComponent = Vue.component( 'contacts-template', {
+var familyContactsComponent = Vue.component( 'family-contacts-template', {
   computed : {
     contacts() {
-      return gVaultBlob.Contacts;
+      return gVaultBlob.FamilyContacts;
     }
   },
   data : function () {
@@ -12,7 +12,7 @@ var contactsComponent = Vue.component( 'contacts-template', {
     }
   },
   mounted : function() {
-    if(gVaultBlob.Contacts.length > 0) {
+    if(gVaultBlob.FamilyContacts.length > 0) {
       this.addButtonText = 'Add another contact';
     } else {
       this.addButtonText = 'Add your first contact';
@@ -21,12 +21,12 @@ var contactsComponent = Vue.component( 'contacts-template', {
   methods : {
     onRowClick : function(rowId) {
       // copy the object so we can work on the copy and not the original
-      gSelectedContact = JSON.parse(JSON.stringify(gVaultBlob.Contacts[rowId]));
-      gRouter.push( {name : 'contact', params : { contactIndex: rowId }});
+      gSelectedFamilyContact = JSON.parse(JSON.stringify(gVaultBlob.FamilyContacts[rowId]));
+      gRouter.push( {name : 'family-contact', params : { contactIndex: rowId }});
     },
     addNewContact : function() {
-      gSelectedContact = {
-        id: -1,
+      gSelectedFamilyContact = {
+        id : -1,
         name : "",
         number : "",
         mobile : "",
@@ -35,7 +35,7 @@ var contactsComponent = Vue.component( 'contacts-template', {
         address : "",
         notes : ""
       };
-      gRouter.push( {name : 'contact', params : { contactIndex: -1 }});
+      gRouter.push( {name : 'familyContact', params : { contactIndex: -1 }});
     },
     doneWithContacts : function() {
 
@@ -48,9 +48,9 @@ var contactsComponent = Vue.component( 'contacts-template', {
       $('#delete-modal').modal('show');
     },
     hardDelete: function(i) {
-      gVaultBlob.Contacts.splice(i,1);
+      gVaultBlob.FamilyContacts.splice(i,1);
       EventBus.$emit('save-to-device');
-      if(gVaultBlob.Contacts.length > 0) {
+      if(gVaultBlob.FamilyContacts.length > 0) {
         this.addButtonText = 'Add another contact';
       } else {
         this.addButtonText = 'Add your first contact';
@@ -63,9 +63,9 @@ var contactsComponent = Vue.component( 'contacts-template', {
                    
       <div class="column ten wide">
 
-        <h2>Contacts Summary</h2>
+        <h2>Family Contacts Summary</h2>
 
-        <h4>This list summarizes all of your personal and professional contacts. If you wish to review or edit an item on this list, click on the applicable item.</h4>
+        <h4>This list summarizes all of your family contacts. If you wish to review or edit an item on this list, click on the applicable item.</h4>
         
         <table class="ui single line padded large table" style="margin-top: 4em;">
           <thead>

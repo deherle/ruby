@@ -1,19 +1,20 @@
 
-var bankAccountsComponent = Vue.component( 'bank-accounts-template', {
+var investmentAccountsComponent = Vue.component( 'investment-accounts-template', {
   computed : {
-    bankAccounts() {
-      return gVaultBlob.BankAccounts;
+    investmentAccounts() {
+      return gVaultBlob.InvestmentAccounts;
     }
   },
   data : function() {
     return  {
-      indexToDelete : -1
+      indexToDelete : -1,
+      addButtonText : ''
     }
 },
   mounted : function() 
   {
-    EventBus.$on('delete-bankaccount', this.hardDelete);
-    if(gVaultBlob.BankAccounts.length > 0) {
+    EventBus.$on('delete-investmentaccount', this.hardDelete);
+    if(gVaultBlob.InvestmentAccounts.length > 0) {
       this.addButtonText = 'Add another account';
     } else {
       this.addButtonText = 'Add your first account';
@@ -22,22 +23,22 @@ var bankAccountsComponent = Vue.component( 'bank-accounts-template', {
   methods : {
     onRowClick : function(rowId) {
       // copy the object so we can work on the copy and not the original
-      gSelectedBankAccount = JSON.parse(JSON.stringify(gVaultBlob.BankAccounts[rowId]));
-      gRouter.push( {name : 'bankAccount', params : { accountIndex: rowId }});
+      gSelectedInvestmentAccount = JSON.parse(JSON.stringify(gVaultBlob.InvestmentAccounts[rowId]));
+      gRouter.push( {name : 'investment', params : { accountIndex: rowId }});
     },
     addNewAccount : function() {
-      gSelectedBankAccount = {
+      gSelectedInvestmentAccount = {
         id : -1,
         name : "",
         number : "",
         balance : "",
-        type : "Savings",
+        type : "401k",
         ownership : "Individual",
-        bankname : "",
+        brokername : "",
         address : "",
         notes : ""
       };
-      gRouter.push( {name : 'bankAccount', params : { accountIndex: -1 }});
+      gRouter.push( {name : 'investment', params : { accountIndex: -1 }});
     },
     doneWithAccounts : function() {
 
@@ -50,9 +51,9 @@ var bankAccountsComponent = Vue.component( 'bank-accounts-template', {
       $('#delete-modal').modal('show');
     },
     hardDelete: function(i) {
-      gVaultBlob.BankAccounts.splice(i,1);
+      gVaultBlob.InvestmentAccounts.splice(i,1);
       EventBus.$emit('save-to-device');
-      if(gVaultBlob.BankAccounts.length > 0) {
+      if(gVaultBlob.InvestmentAccounts.length > 0) {
         this.addButtonText = 'Add another account';
       } else {
         this.addButtonText = 'Add your first account';
@@ -65,25 +66,25 @@ var bankAccountsComponent = Vue.component( 'bank-accounts-template', {
                    
       <div class="column ten wide">
 
-        <h2>Bank Accounts Summary</h2>
+        <h2>Investment Accounts Summary</h2>
 
-        <h4>This list summarizes all of your bank accounts. If you wish to review or edit an item on this list, click on the applicable item.</h4>
+        <h4>This list summarizes all of your investment accounts. If you wish to review or edit an item on this list, click on the applicable item.</h4>
         
         <table class="ui single line padded large table" style="margin-top: 4em;">
           <thead>
             <tr>
               <th>Account Name</th>  
-              <th>Bank</th>
+              <th>Broker/Custodian</th>
               <th>Balance</th>
               <th></th>
             </tr>
           </thead>
             <tbody>
-              <tr v-for="BankAccount in bankAccounts">
-                <td><a href="#" @click="onRowClick(BankAccount.id);">{{BankAccount.name}}</a></td>
-                <td><a href="#" @click="onRowClick(BankAccount.id);">{{BankAccount.bankname}}</a></td>
-                <td><a href="#" @click="onRowClick(BankAccount.id);">&#36;{{BankAccount.balance}}</a></td>
-                <td><a href="#" @click="onRowClick(BankAccount.id);">Edit</a>&nbsp;|&nbsp;<a href="#" @click="onDelete(BankAccount.id);">Delete</a></td>
+              <tr v-for="Account in investmentAccounts">
+                <td><a href="#" @click="onRowClick(Account.id);">{{Account.name}}</a></td>
+                <td><a href="#" @click="onRowClick(Account.id);">{{Account.brokername}}</a></td>
+                <td><a href="#" @click="onRowClick(Account.id);">&#36;{{Account.balance}}</a></td>
+                <td><a href="#" @click="onRowClick(Account.id);">Edit</a>&nbsp;|&nbsp;<a href="#" @click="onDelete(Account.id);">Delete</a></td>
               </tr>
             </tbody>
           </table>
@@ -102,12 +103,12 @@ var bankAccountsComponent = Vue.component( 'bank-accounts-template', {
         <div class="eight wide column"></div>
           <div class="two wide column">
             <button class="ui huge blue button"  @click="addNewAccount();">
-              Add another bank account
+              {{addButtonText}}
             </button>
           </div>
           <div class="two wide column">
             <button class="ui huge blue button" @click="doneWithAccounts();">
-              Done with bank accounts
+              Done with accounts
             </button>
           </div>
 

@@ -1,37 +1,36 @@
 
 var documentsComponent = Vue.component( 'documents-template', {
   computed : {
-    bankAccounts() {
-      return vaultBlob.BankAccounts;
+    documents() {
+      return gVaultBlob.Documents;
     }
   },
   methods : {
     onRowClick : function(rowId) {
       // copy the object so we can work on the copy and not the original
-      selectedBankAccount = JSON.parse(JSON.stringify(vaultBlob.BankAccounts[rowId]));
-      this.$router.push( {name : 'bankAccount', params : { accountIndex: rowId }});
+      gSelectedDocument = JSON.parse(JSON.stringify(gVaultBlob.Documents[rowId]));
+      gRouter.push( {name : 'document', params : { documentIndex: rowId }});
     },
-    addNewAccount : function() {
-      selectedBankAccount = {
+    addNewDocument : function() {
+      gSelectedDocument = {
         name : "",
-        number : "",
-        balance : "",
-        type : "Savings",
-        ownership : "Individual",
-        bankname : "",
-        address : "",
+        type : "",
+        date : "",
+        attachedFilename : "",
+        status : "Active",
+        author : "",
         notes : ""
       };
-      this.$router.push( {name : 'bankAccount', params : { accountIndex: -1 }});
+      gRouter.push( {name : 'document', params : { documentIndex: -1 }});
     },
-    doneWithAccounts : function() {
+    doneWithDocuments : function() {
 
     },
     back : function() {
 
     },
     onDelete: function(i) {
-      vaultBlob.BankAccounts.splice(i,1);
+      gVaultBlob.Documents.splice(i,1);
       this.$forceUpdate();
     }
   },
@@ -40,25 +39,25 @@ var documentsComponent = Vue.component( 'documents-template', {
                    
       <div class="column ten wide">
 
-        <h2>Bank Accounts Summary</h2>
+        <h2>Documents Summary</h2>
 
-        <h4>This list summarizes all of your bank accounts. If you wish to review or edit an item on this list, click on the applicable item.</h4>
+        <h4>This list summarizes all of your important documents. If you wish to review or edit an item on this list, click on the applicable item.</h4>
         
         <table class="ui single line padded large table" style="margin-top: 4em;">
           <thead>
             <tr>
-              <th>Account Name</th>  
-              <th>Bank</th>
-              <th>Balance</th>
+              <th>Document Name</th>
+              <th>Date</th>
+              <th>Author</th>
               <th></th>
             </tr>
           </thead>
             <tbody>
-              <tr v-for="BankAccount in bankAccounts">
-                <td><a href="#" @click="onRowClick(BankAccount.id);">{{BankAccount.name}}</a></td>
-                <td><a href="#" @click="onRowClick(BankAccount.id);">{{BankAccount.bankname}}</a></td>
-                <td><a href="#" @click="onRowClick(BankAccount.id);">{{BankAccount.balance}}</a></td>
-                <td><a href="#" @click="onRowClick(BankAccount.id);">Edit</a>&nbsp;|&nbsp;<a href="#" @click="onDelete(BankAccount.id);">Delete</a></td>
+              <tr v-for="Document in documents">
+                <td><a href="#" @click="onRowClick(Document.id);">{{Document.name}}</a></td>
+                <td><a href="#" @click="onRowClick(Document.id);">{{Document.date}}</a></td>
+                <td><a href="#" @click="onRowClick(Document.id);">{{Document.author}}</a></td>
+                <td><a href="#" @click="onRowClick(Document.id);">Edit</a>&nbsp;|&nbsp;<a href="#" @click="onDelete(Document.id);">Delete</a></td>
               </tr>
             </tbody>
           </table>
@@ -75,14 +74,14 @@ var documentsComponent = Vue.component( 'documents-template', {
         </div>
 
         <div class="eight wide column"></div>
-          <div class="two wide column">
-            <button class="ui huge blue button"  @click="addNewAccount();">
-              Add another bank account
+          <div class="three wide column">
+            <button class="ui huge blue button"  @click="addNewDocument();">
+              Add another document
             </button>
           </div>
           <div class="two wide column">
-            <button class="ui huge blue button" @click="doneWithAccounts();">
-              Done with bank accounts
+            <button class="ui huge blue button" @click="doneWithDocuments();">
+              Done with documents
             </button>
           </div>
 
