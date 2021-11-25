@@ -82,9 +82,14 @@ var investmentAccountComponent = Vue.component( 'investment-account-template', {
     },
     mounted : function() {
       this.localAccountIndex = this.accountIndex;
-      EventBus.$on('save-investmentaccount', this.saveInvestmentAccount);
-      EventBus.$on('discard-investmentaccount-changes', this.discardInvestmentAccountChanges);
-      EventBus.$on('delete-investmentaccount', this.hardDelete);
+      EventBus.$on('save-investment', this.saveInvestmentAccount);
+      EventBus.$on('discard-investment-changes', this.discardInvestmentAccountChanges);
+      EventBus.$on('delete-investment', this.hardDelete);
+    },
+    beforeDestroy : function() { 
+      EventBus.$off('save-investment', this.saveInvestmentAccount);
+      EventBus.$off('discard-investment-changes', this.discardInvestmentAccountChanges);
+      EventBus.$off('delete-investment', this.hardDelete);
     },
     methods : {
       saveInvestmentAccount : function() {
@@ -195,6 +200,12 @@ var investmentAccountComponent = Vue.component( 'investment-account-template', {
                 <div class="ui radio checkbox">
                   <input type="radio" name="accounttype" value="RRSP" v-model="type" @input="inputChanged();">
                   <label>RRSP</label>
+                </div>
+              </div>
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input type="radio" name="accounttype" value="RESP" v-model="type" @input="inputChanged();">
+                  <label>RESP</label>
                 </div>
               </div>
             </div>

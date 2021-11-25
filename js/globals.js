@@ -9,6 +9,8 @@ var gSelectedInvestmentAccount;
 var gSelectedContact;
 var gSelectedFamilyContact;
 var gSelectedDocument;
+var gSelectedServiceProvider;
+var gSelectedInsurancePolicy;
 var gRouter;
 var gDeviceCheckIntervalHandler;
 var gMountedDrive;

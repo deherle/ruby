@@ -13,7 +13,7 @@ var investmentAccountsComponent = Vue.component( 'investment-accounts-template',
 },
   mounted : function() 
   {
-    EventBus.$on('delete-investmentaccount', this.hardDelete);
+    EventBus.$on('delete-investment', this.hardDelete);
     if(gVaultBlob.InvestmentAccounts.length > 0) {
       this.addButtonText = 'Add another account';
     } else {

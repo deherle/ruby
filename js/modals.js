@@ -92,7 +92,7 @@ var saveModalComponent = Vue.component( 'save-modal', {
                 EventBus.$emit('save-insurance');
             } else if(currentRoute == 'serviceProvider') {
                 EventBus.$emit('save-serviceprovider');
-            } else if(currentRoute == 'documents') {
+            } else if(currentRoute == 'document') {
                 EventBus.$emit('save-document'); 
             }
         },
@@ -110,7 +110,7 @@ var saveModalComponent = Vue.component( 'save-modal', {
                 EventBus.$emit('discard-insurance-changes');
             } else if(currentRoute == 'serviceProvider') {
                 EventBus.$emit('discard-serviceprovider-changes');
-            } else if(currentRoute == 'documents') {
+            } else if(currentRoute == 'document') {
                 EventBus.$emit('discard-document-changes'); 
             }
         }

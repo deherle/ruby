@@ -22,7 +22,10 @@ var connectComponent = Vue.component('connect-device', {
             authenticatedStepSpinnerIsActive: false,
             authenticatedStepIsCompleted: false,
             authenticatedStepIconIsHidden: false,
-            readyText: 'Reading secure data'
+            readyText: 'Reading secure data',
+            nextButtonIsDisabled: true,
+            lowerStatusText1: 'The SmartVault app is looking for your vault...',
+            lowerStatusText2: ''
             }
     },
     watch : {
@@ -95,6 +98,9 @@ var connectComponent = Vue.component('connect-device', {
             this.authenticatedStepIconIsHidden = false;
             this.readyText = 'Device is ready';
             gDeviceConectionStatus = 'Connected';
+            this.nextButtonIsDisabled = false;
+            this.lowerStatusText1 = 'Found your SmartVault! Your device is ready to use.';
+            this.lowerStatusText2 = 'Click next, or navigate directly to a category in the menu to the left.';
         },
         deviceDisconnectedEvent : function() {
             
@@ -141,6 +147,9 @@ var connectComponent = Vue.component('connect-device', {
                     console.log(err);
                 }
             });
+        },
+        Next : function() {
+            gRouter.push('intro1');
         }
     },
     mounted : function() {
@@ -196,10 +205,14 @@ var connectComponent = Vue.component('connect-device', {
             this.authenticatedStepIsCompleted = true;
             this.authenticatedStepIconIsHidden = false;
             this.readyText = 'Device is ready';
+            this.lowerStatusText1 = 'Found your SmartVault! Your device is ready to use.';
+            this.lowerStatusText2 = 'Click next, or navigate directly to a category in the menu to the left.';
+            this.nextButtonIsDisabled = false;
         }
 
     },
     template: `
+        <div>
         <div class="center aligned column" style="margin-top: 15em;">
             
             <div class="ui container">
@@ -232,10 +245,26 @@ var connectComponent = Vue.component('connect-device', {
                     </div>
                 </div>
 
-                <div></div>
-
             </div>
 
         </div>
+
+            <div style="margin-top: 5em;" class="left aligned column">
+            <h2>{{lowerStatusText1}}</h2>
+            <h3>{{lowerStatusText2}}</h3>
+            </div>
+
+            <div class="row center aligned column" style="margin-top: 8em;">
+                <div class="column four wide"></div>
+                <div class="column four wide">
+                    <a href="#" class="ui huge blue right labeled icon button" v-bind:class="{ disabled: nextButtonIsDisabled }" @click="Next();">
+                        <i class="right arrow icon"></i>
+                        Next
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
     `
 });

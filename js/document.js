@@ -85,6 +85,14 @@ var documentComponent = Vue.component( 'document-template', {
       EventBus.$on('upload-file-complete', this.uploadFileComplete);
       EventBus.$on('upload-file-error', this.uploadFileError);
     },
+    beforeDestroy : function() {  
+      EventBus.$off('save-document', this.saveDocument);
+      EventBus.$off('discard-document-changes', this.discardDocumentChanges);
+      EventBus.$off('delete-document', this.hardDelete);
+      EventBus.$off('upload-filename-selected', this.setUploadFilename);
+      EventBus.$off('upload-file-complete', this.uploadFileComplete);
+      EventBus.$off('upload-file-error', this.uploadFileError);
+    },
     methods : {
       saveDocument : function() {
         if( gSelectedDocument.name.length == 0 ) {
@@ -120,6 +128,7 @@ var documentComponent = Vue.component( 'document-template', {
         if(this.documentIndex == -1) {
           gRouter.push('documents');
         } else {
+          this.removeFile();
           gVaultBlob.Documents.splice(this.localDocumentIndex,1);
           gRouter.push('documents');
         }
@@ -159,6 +168,7 @@ var documentComponent = Vue.component( 'document-template', {
           this.uploadButtonIsHidden = false;
           this.filenameIsHidden = true;
           this.attachedFilename = "";
+          this.inputHasChanged = true;
       },
       setUploadFilename : function(filename) {
         this.uploadButtonLoading = true;
@@ -168,6 +178,7 @@ var documentComponent = Vue.component( 'document-template', {
         this.uploadButtonLoading = false;
         this.uploadButtonIsHidden = true;
         this.filenameIsHidden = false;
+        this.inputHasChanged = true;
       },
       uploadFileError : function() {
         this.uploadButtonLoading = false;

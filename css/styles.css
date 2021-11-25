@@ -9,3 +9,9 @@ table tr:hover {
 .hidden {
     display: none !important;
 }
+
+.animate-fading{ 
+    animation:fading 5s infinite
+}
+
+@keyframes fading{0%{opacity:0}50%{opacity:1}100%{opacity:0}}

@@ -7,7 +7,8 @@ var bankAccountsComponent = Vue.component( 'bank-accounts-template', {
   },
   data : function() {
     return  {
-      indexToDelete : -1
+      indexToDelete : -1,
+      addButtonText : ""
     }
 },
   mounted : function() 
@@ -102,7 +103,7 @@ var bankAccountsComponent = Vue.component( 'bank-accounts-template', {
         <div class="eight wide column"></div>
           <div class="two wide column">
             <button class="ui huge blue button"  @click="addNewAccount();">
-              Add another bank account
+              {{addButtonText}}
             </button>
           </div>
           <div class="two wide column">

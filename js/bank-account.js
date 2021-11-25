@@ -86,6 +86,11 @@ var bankAccountComponent = Vue.component( 'bank-account-template', {
       EventBus.$on('discard-bankaccount-changes', this.discardBankAccountChanges);
       EventBus.$on('delete-bankaccount', this.hardDelete);
     },
+    beforeDestroy : function() { 
+      EventBus.$off('save-bankaccount', this.saveBankAccount);
+      EventBus.$off('discard-bankaccount-changes', this.discardBankAccountChanges);
+      EventBus.$off('delete-bankaccount', this.hardDelete);
+    },
     methods : {
       saveBankAccount : function() {
         if( gSelectedBankAccount.name.length == 0 ) {

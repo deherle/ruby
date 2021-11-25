@@ -64,6 +64,11 @@ var contactComponent = Vue.component( 'contact-template', {
       EventBus.$on('discard-contact-changes', this.discardContactChanges);
       EventBus.$on('delete-contact', this.hardDelete);
     },
+    beforeDestroy : function() { 
+      EventBus.$off('save-contact', this.saveContact);
+      EventBus.$off('discard-contact-changes', this.discardContactChanges);
+      EventBus.$off('delete-contact', this.hardDelete);
+    },
     methods : {
       saveContact : function() {
         if( gSelectedContact.name.length == 0 ) {

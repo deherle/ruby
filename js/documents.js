@@ -29,7 +29,10 @@ var documentsComponent = Vue.component( 'documents-template', {
     back : function() {
 
     },
-    onDelete: function(i) {
+    onDelete : function() {
+      $('#delete-modal').modal('show');
+    },
+    hardDelete: function(i) {
       gVaultBlob.Documents.splice(i,1);
       this.$forceUpdate();
     }

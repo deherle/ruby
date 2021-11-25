@@ -11,7 +11,8 @@ Vue.component('menu-picker', {
             familyContacts : false,
             documents : false,
             serviceProviders : false,
-            insurance : false
+            insurance : false,
+            summary : false
         }
     },
     watch : {
@@ -28,8 +29,8 @@ Vue.component('menu-picker', {
                 this.documents = false;
                 this.serviceProviders = false;
                 this.insurance = false;
-            }
-            else if(currentRoute == 'intro1' || currentRoute == 'intro2') {
+                this.summary = false;
+            } else if(currentRoute == 'intro1' || currentRoute == 'intro2') {
                 this.connect = false;
                 this.gettingStarted = true;
                 this.bankAccounts = false;
@@ -40,6 +41,7 @@ Vue.component('menu-picker', {
                 this.documents = false;
                 this.serviceProviders = false;
                 this.insurance = false;
+                this.summary = false;
             } else if (currentRoute == 'bankAccount' || currentRoute == 'bankAccounts') {
                 this.connect = false;
                 this.gettingStarted = false;
@@ -51,6 +53,7 @@ Vue.component('menu-picker', {
                 this.documents = false;
                 this.serviceProviders = false;
                 this.insurance = false;
+                this.summary = false;
             } else if (currentRoute == 'contact' || currentRoute == 'contacts') {
                 this.connect = false;
                 this.gettingStarted = false;
@@ -62,6 +65,7 @@ Vue.component('menu-picker', {
                 this.documents = false;
                 this.serviceProviders = false;
                 this.insurance = false;
+                this.summary = false;
             } else if (currentRoute == 'familyContact' || currentRoute == 'familyContacts') {
                 this.connect = false;
                 this.gettingStarted = false;
@@ -73,6 +77,7 @@ Vue.component('menu-picker', {
                 this.documents = false;
                 this.serviceProviders = false;
                 this.insurance = false;
+                this.summary = false;
             } else if (currentRoute == 'infoSources' || currentRoute == 'infoSources') {
                 this.connect = false;
                 this.gettingStarted = false;
@@ -84,6 +89,7 @@ Vue.component('menu-picker', {
                 this.documents = false;
                 this.serviceProviders = false;
                 this.insurance = false;
+                this.summary = false;
             } else if (currentRoute == 'document' || currentRoute == 'documents') {
                 this.connect = false;
                 this.gettingStarted = false;
@@ -95,6 +101,7 @@ Vue.component('menu-picker', {
                 this.documents = true;
                 this.serviceProviders = false;
                 this.insurance = false;
+                this.summary = false;
             } else if (currentRoute == 'serviceProvider' || currentRoute == 'serviceProviders') {
                 this.connect = false;
                 this.gettingStarted = false;
@@ -106,6 +113,7 @@ Vue.component('menu-picker', {
                 this.documents = false;
                 this.serviceProviders = true;
                 this.insurance = false;
+                this.summary = false;
             } else if (currentRoute == 'insurancePolicy' || currentRoute == 'insurancePolicies') {
                 this.connect = false;
                 this.gettingStarted = false;
@@ -117,6 +125,7 @@ Vue.component('menu-picker', {
                 this.documents = false;
                 this.serviceProviders = false;
                 this.insurance = true;
+                this.summary = false;
             } else if (currentRoute == 'investment' || currentRoute == 'investments') {
                 this.connect = false;
                 this.gettingStarted = false;
@@ -128,6 +137,19 @@ Vue.component('menu-picker', {
                 this.documents = false;
                 this.serviceProviders = false;
                 this.insurance = false;
+                this.summary = false;
+            } else if (currentRoute == 'summary') {
+                this.connect = false;
+                this.gettingStarted = false;
+                this.bankAccounts = false;
+                this.information = false;
+                this.investments = false;
+                this.contacts = false;
+                this.familyContacts = false;
+                this.documents = false;
+                this.serviceProviders = false;
+                this.insurance = false;
+                this.summary = true;
             }
         }
     },
@@ -161,6 +183,9 @@ Vue.component('menu-picker', {
         },
         Insurance : function() {
             gRouter.push('insurance-policies');
+        },
+        Summary : function() {
+            gRouter.push('summary');
         }
     },
     template: `
@@ -179,13 +204,13 @@ Vue.component('menu-picker', {
             <div class="description">Learn how SmartVault works</div>
         </div>
         </a>
-        <a class="step" v-bind:class="{ active: information }" @click="InfoSources();">
+        <!-- <a class="step" v-bind:class="{ active: information }" @click="InfoSources();">
         <i class="archive icon"></i>
         <div class="content">
             <div class="title">Sources of Information</div>
             <div class="description">Entering data</div>
         </div>
-        </a>
+        </a> -->
         <a class="step" v-bind:class="{ active: familyContacts }" @click="FamilyContacts();">
         <i class="users icon"></i>
         <div class="content">
@@ -233,6 +258,13 @@ Vue.component('menu-picker', {
             <div class="content">
                 <div class="title">Insurance</div>
                 <div class="description">Sources and dates</div>
+            </div>
+        </a>
+        <a class="step" v-bind:class="{ active: summary }" @click="Summary();">
+            <i class="list ol icon"></i>
+            <div class="content">
+                <div class="title">Summary</div>
+                <div class="description">All your data</div>
             </div>
         </a>
     </div>`
